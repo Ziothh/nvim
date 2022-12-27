@@ -45,12 +45,6 @@ vim.wo.signcolumn = 'yes'
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 
--- Theming
--- vim.opt.background = "dark"
---- Set colorscheme
-vim.o.termguicolors = true
-vim.cmd [[colorscheme onedark]]
-
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
 
@@ -58,10 +52,3 @@ vim.o.completeopt = 'menuone,noselect'
 vim.opt.scrolloff = 8
 vim.opt.isfname:append("@-@")
 -- vim.opt.colorcolumn = "80" -- TODO: activate
-
--- [[ Basic Keymaps ]]
--- Set <space> as the leader key
--- See `:help mapleader`
---  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '

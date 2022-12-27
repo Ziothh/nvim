@@ -1,2 +1,2 @@
-require("kickstart")
+-- require("kickstart")
 require("ziothh")

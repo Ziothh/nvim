@@ -1,0 +1,1 @@
+require("ziothh.plugins.custom.highlightOnYank")
