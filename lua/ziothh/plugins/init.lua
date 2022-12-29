@@ -5,6 +5,7 @@ require("ziothh.plugins.custom")
 -- Quality of life
 require("ziothh.plugins.comment")
 require("ziothh.plugins.indent_blankline")
+require("ziothh.plugins.autopairs")
 
 -- Editor layout
 require("ziothh.plugins.lualine")
