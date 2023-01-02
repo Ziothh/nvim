@@ -17,6 +17,7 @@ vim.keymap.set("i", "<C-c>", "<Esc>")
 
 -- Disabling some movements
 vim.keymap.set("n", "Q", "<nop>")
+vim.keymap.set("n", "<F1>", "<nop>")
 
 
 -- [[ Vim navigation ]]
