@@ -89,8 +89,8 @@ vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true }) -- c
 
 
 -- [[ Error Diagnostics ]]
-vim.keymap.set('n', '<leader>ep', vim.diagnostic.goto_prev, { desc = "[E]rror: [P]revious", silent = true, noremap = true })
-vim.keymap.set('n', '<leader>en', vim.diagnostic.goto_next, { desc = "[E]rror: [N]ext", silent = true, noremap = true })
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = "Open [E]rror on cursor", silent = true, noremap = true })
-vim.keymap.set('n', '<leader>ee', vim.diagnostic.open_float, { desc = "Open [E]rror on cursor", silent = true, noremap = true })
-vim.keymap.set('n', '<leader>el', vim.diagnostic.setloclist, { desc = "Open [E]rror [L]ist", silent = true, noremap = true })
+vim.keymap.set('n', '<leader>dp', vim.diagnostic.goto_prev, { desc = "[E]rror: [P]revious", silent = true, noremap = true })
+vim.keymap.set('n', '<leader>dn', vim.diagnostic.goto_next, { desc = "[E]rror: [N]ext", silent = true, noremap = true })
+vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { desc = "Open [E]rror on cursor", silent = true, noremap = true })
+-- vim.keymap.set('n', '<leader>de', vim.diagnostic.open_float, { desc = "Open [E]rror on cursor", silent = true, noremap = true })
+vim.keymap.set('n', '<leader>dl', vim.diagnostic.setloclist, { desc = "Open [E]rror [L]ist", silent = true, noremap = true })

@@ -19,3 +19,9 @@ require("ziothh.plugins.breadcrumbs")
 require("ziothh.plugins.harpoon")
 require("ziothh.plugins.undotree")
 require("ziothh.plugins.zenmode")
+
+-- Floating terminal
+require("ziothh.plugins.floaterm")
+
+-- File explorer
+require("ziothh.plugins.nvim_tree")
