@@ -75,6 +75,10 @@ vim.keymap.set("n", "N", "Nzzzv") -- ?
 -- end)
 
 
+-- [[ Buffers ]]
+vim.keymap.set("n", "<leader>bp", ":b#<CR>", { desc = "[B]uffer: [P]revious"})
+
+
 -- [[ Git ]]
 vim.keymap.set("n", "<leader>ga", function()
   local files = vim.fn.input("Git add files > ")
@@ -101,6 +105,7 @@ vim.keymap.set("n", "<leader>gca", function()
     end
   end)
 end, { desc = "[G]it [C]ommit by staging [A]ll" })
+vim.keymap.set("n", "<leader>gp!", ":Git push<CR>", { desc = "[G]it [P]ush"})
 
 
 -- [[ tmux ]]
