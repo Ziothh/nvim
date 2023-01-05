@@ -32,13 +32,14 @@ vim.keymap.set("n", "J", "mzJ`z") -- replace newline of next line with a space
 
 vim.keymap.set("n", "x", '"_x') -- Delete character without adding it to the buffer
 
-vim.keymap.set({"n", "v"}, "<leader>d", [["_d]]) -- ?
+vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]]) -- ?
 
 -- greatest remap ever
 vim.keymap.set("x", "<leader>p", [["_dP]]) -- allows pasting buffer over highlighted text without losing that buffer
 
 -- next greatest remap ever : asbjornHaland
-vim.keymap.set({"n", "v"}, "<leader>y", [["+y]], {desc = "copies text to your systems clipboard instead of your vim buffer"})
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]],
+  { desc = "copies text to your systems clipboard instead of your vim buffer" })
 vim.keymap.set("n", "<leader>Y", [["+Y]]) -- ?
 
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
@@ -47,8 +48,8 @@ vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 -- vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- [[ Movement ]]
-vim.keymap.set("n", "<C-d>", "<C-d>zz", {desc = "Half page jumping down"})
-vim.keymap.set("n", "<C-u>", "<C-u>zz", {desc = "Half page jumping up"})
+vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Half page jumping down" })
+vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Half page jumping up" })
 
 vim.keymap.set("n", "n", "nzzzv") -- ?
 vim.keymap.set("n", "N", "Nzzzv") -- ?
@@ -67,11 +68,39 @@ vim.keymap.set("n", "N", "Nzzzv") -- ?
 -- k.set("n", "<leader>tp", ":tabp<CR>")
 
 -- vim.keymap.set("n", "<leader>vwm", function()
-    -- require("vim-with-me").StartVimWithMe()
+-- require("vim-with-me").StartVimWithMe()
 -- end)
 -- vim.keymap.set("n", "<leader>svwm", function()
-  --   require("vim-with-me").StopVimWithMe()
+--   require("vim-with-me").StopVimWithMe()
 -- end)
+
+
+-- [[ Git ]]
+vim.keymap.set("n", "<leader>ga", function()
+  local files = vim.fn.input("Git add files > ")
+
+  if (files and files ~= "")
+  then
+    vim.cmd("!git add " .. files)
+  end
+end, { desc = "[G]it [A]dd", silent = true })
+vim.keymap.set("n", "<leader>gaa", "!git add -A", { desc = "[G]it [A]dd [A]ll" })
+vim.keymap.set("n", "<leader>gc", function()
+  vim.ui.input({ prompt = "Git commit message > " }, function(message)
+    if (message and message ~= "")
+    then
+      vim.cmd("!git commit -m \"" .. message..'"')
+    end
+  end)
+end, { desc = "[G]it [C]ommit" })
+vim.keymap.set("n", "<leader>gca", function()
+  vim.ui.input({ prompt = "Git commit message > " }, function(message)
+    if (message and message ~= "")
+    then
+      vim.cmd("!git add -A && git commit -m \"" .. message..'"')
+    end
+  end)
+end, { desc = "[G]it [C]ommit by staging [A]ll" })
 
 
 -- [[ tmux ]]
@@ -90,8 +119,11 @@ vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true }) -- c
 
 
 -- [[ Error Diagnostics ]]
-vim.keymap.set('n', '<leader>dp', vim.diagnostic.goto_prev, { desc = "[E]rror: [P]revious", silent = true, noremap = true })
+vim.keymap.set('n', '<leader>dp', vim.diagnostic.goto_prev,
+  { desc = "[E]rror: [P]revious", silent = true, noremap = true })
 vim.keymap.set('n', '<leader>dn', vim.diagnostic.goto_next, { desc = "[E]rror: [N]ext", silent = true, noremap = true })
-vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { desc = "Open [E]rror on cursor", silent = true, noremap = true })
+vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float,
+  { desc = "Open [E]rror on cursor", silent = true, noremap = true })
 -- vim.keymap.set('n', '<leader>de', vim.diagnostic.open_float, { desc = "Open [E]rror on cursor", silent = true, noremap = true })
-vim.keymap.set('n', '<leader>dl', vim.diagnostic.setloclist, { desc = "Open [E]rror [L]ist", silent = true, noremap = true })
+vim.keymap.set('n', '<leader>dl', vim.diagnostic.setloclist,
+  { desc = "Open [E]rror [L]ist", silent = true, noremap = true })

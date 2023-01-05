@@ -114,6 +114,10 @@ packer.startup(function(use)
       vim.cmd('colorscheme rose-pine')
     end
   })
+  use({
+    "sainnhe/sonokai",
+    as = "sonokai",
+  })
   --     use {
   --     "lunarvim/onedarker.nvim",
   --     -- branch = "freeze",
@@ -255,6 +259,9 @@ packer.startup(function(use)
     --     require("lvim.core.autopairs").setup()
     --   end,
     --   disable = not lvim.builtin.autopairs.active,
+  }
+  use {
+    "windwp/nvim-ts-autotag"
   }
 
   -- Treesitter

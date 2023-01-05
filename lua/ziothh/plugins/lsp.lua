@@ -53,7 +53,11 @@ local servers = {
   -- gopls = {},
   -- pyright = {},
   rust_analyzer = {},
-  tsserver = {},
+  tsserver = {
+    -- on_attach = on_attach,
+    filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
+    cmd = { "typescript-language-server", "--stdio" }
+  },
 
   sumneko_lua = {
     Lua = {
