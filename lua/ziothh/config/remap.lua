@@ -76,7 +76,7 @@ vim.keymap.set("n", "N", "Nzzzv") -- ?
 
 
 -- [[ Buffers ]]
-vim.keymap.set("n", "<leader>bp", ":b#<CR>", { desc = "[B]uffer: [P]revious"})
+vim.keymap.set("n", "<leader>bp", ":b#<CR>", { desc = "[B]uffer: [P]revious" })
 
 
 -- [[ Git ]]
@@ -93,7 +93,7 @@ vim.keymap.set("n", "<leader>gc", function()
   vim.ui.input({ prompt = "Git commit message > " }, function(message)
     if (message and message ~= "")
     then
-      vim.cmd("!git commit -m \"" .. message..'"')
+      vim.cmd("!git commit -m \"" .. message .. '"')
     end
   end)
 end, { desc = "[G]it [C]ommit" })
@@ -101,11 +101,11 @@ vim.keymap.set("n", "<leader>gca", function()
   vim.ui.input({ prompt = "Git commit message > " }, function(message)
     if (message and message ~= "")
     then
-      vim.cmd("!git add -A && git commit -m \"" .. message..'"')
+      vim.cmd("!git add -A && git commit -m \"" .. message .. '"')
     end
   end)
 end, { desc = "[G]it [C]ommit by staging [A]ll" })
-vim.keymap.set("n", "<leader>gp!", ":Git push<CR>", { desc = "[G]it [P]ush"})
+vim.keymap.set("n", "<leader>gp!", ":Git push<CR>", { desc = "[G]it [P]ush" })
 
 
 -- [[ tmux ]]
@@ -121,14 +121,3 @@ vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]]) -- start replace current text command
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true }) -- cmod a script to be executable
-
-
--- [[ Error Diagnostics ]]
-vim.keymap.set('n', '<leader>dp', vim.diagnostic.goto_prev,
-  { desc = "[E]rror: [P]revious", silent = true, noremap = true })
-vim.keymap.set('n', '<leader>dn', vim.diagnostic.goto_next, { desc = "[E]rror: [N]ext", silent = true, noremap = true })
-vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float,
-  { desc = "Open [E]rror on cursor", silent = true, noremap = true })
--- vim.keymap.set('n', '<leader>de', vim.diagnostic.open_float, { desc = "Open [E]rror on cursor", silent = true, noremap = true })
-vim.keymap.set('n', '<leader>dl', vim.diagnostic.setloclist,
-  { desc = "Open [E]rror [L]ist", silent = true, noremap = true })

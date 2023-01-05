@@ -111,24 +111,26 @@ cmp.setup {
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
-    ['<Tab>'] = cmp.mapping.confirm {
-      -- behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    },
+    -- ['<Tab>'] = cmp.mapping.confirm {
+    --   -- behavior = cmp.ConfirmBehavior.Replace,
+    --   select = true,
+    -- },
     ['<CR>'] = nil,
     --   ['<CR>'] = cmp.mapping.confirm {
     --     behavior = cmp.ConfirmBehavior.Replace,
     --     select = true,
     --   },
-    --   ['<Tab>'] = cmp.mapping(function(fallback)
-    --     if cmp.visible() then
-    --       cmp.select_next_item()
-    --     elseif luasnip.expand_or_jumpable() then
-    --       luasnip.expand_or_jump()
-    --     else
-    --       fallback()
-    --     end
-    --   end, { 'i', 's' }),
+    ["<Tab>"] = cmp.mapping(
+      function(fallback)
+        if cmp.visible() then
+          cmp.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true })
+        elseif luasnip.expand_or_jumpable() then
+          vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-expand-or-jump", true, true, true), "")
+        else
+          fallback()
+        end
+      end, { "i", "s" }
+    ),
     ['<S-Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
@@ -141,9 +143,9 @@ cmp.setup {
   },
   sources = {
     { name = 'nvim_lsp' },
-    { name = 'luasnip' },
     { name = 'path' }, -- file paths
     { name = 'nvim_lsp_signature_help' }, -- display function signatures with current parameter emphasized
+    { name = 'luasnip' },
     { name = 'nvim_lua', keyword_length = 2 }, -- complete neovim's Lua runtime API such vim.lsp.*
     { name = 'calc' }, -- source for math calculation
   },
@@ -165,6 +167,80 @@ cmp.setup {
     end,
   },
 }
+
+cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = 'path' }
+  }, {
+    { name = 'cmdline' }
+  })
+})
+
+-- [[ LuaSnip ]]
+local snip = luasnip.snippet
+local node = luasnip.snippet_node
+local text = luasnip.text_node
+local insert = luasnip.insert_node
+local func = luasnip.function_node
+local choice = luasnip.choice_node
+local dynamicn = luasnip.dynamic_node
+local function newline()
+  return text({"", ""}) 
+end
+
+
+luasnip.config.set_config {
+  history = true,
+  -- treesitter-hl has 100, use something higher (default is 200).
+  ext_base_prio = 200,
+  -- minimal increase in priority.
+  ext_prio_increase = 1,
+  enable_autosnippets = false,
+  -- store_selection_keys = "<c-s>",
+}
+
+luasnip.add_snippets(nil, {
+  typescriptreact = {
+    snip({
+      trig = "rfc",
+      namr = "Functional component",
+      dscr = "Inserts a functional component (default exported)",
+    }, {
+      text('import type { FC } from "react";'),
+      newline(),
+      newline(),
+      text('interface Props {'),
+      newline(),
+      text("\t"),
+      insert(2, ""),
+      newline(),
+      text('}'),
+      newline(),
+      newline(),
+      text("const "),
+      insert(1, "ComponentName"),
+      text(' = ({'),
+      newline(),
+      text("\t"),
+      insert(3, ""),
+      newline(),
+      text('}) => {'),
+      newline(),
+      text('\treturn ('),
+      newline(),
+      text("\t\t"),
+      insert(0, ""),
+      newline(),
+      text('\t)'),
+      newline(),
+      text('}'),
+      newline(),
+      text('export default '),
+      insert(1, "ComponentName"),
+    }),
+  }
+})
 
 -- Rust-tools config
 --[[ local rt = require("rust-tools")

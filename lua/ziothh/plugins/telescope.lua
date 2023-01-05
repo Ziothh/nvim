@@ -12,6 +12,13 @@ telescope.setup {
         ['<C-d>'] = false,
       },
     },
+    -- pickers = {
+    --   find_files = {
+
+    --     hidden = true
+
+    --   }
+    -- },
     file_ignore_patterns = {
       -- regex
       -- "node_modules",
@@ -44,7 +51,18 @@ vim.keymap.set('n', '<leader><space>', function()
   })
 end, { desc = '[ ] Fuzzily search in current buffer]', noremap = true, silent = true })
 
-vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = '[F]ind [F]iles', noremap = true, silent = true, })
+vim.keymap.set('n', '<leader>ff', function()
+  builtin.find_files({ find_command = {
+    'rg',
+    '--files',
+    '--hidden',
+    '--no-ignore-vcs',
+    '-g',
+    -- '!node_modules',
+    -- '!.next',
+    '!.git'
+  } })
+end, { desc = '[F]ind [F]iles', noremap = true, silent = true, })
 vim.keymap.set('n', '<leader>fg', builtin.git_files,
   { desc = "[F]ind [G]it controlled files", noremap = true, silent = true, })
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = '[F]ind [H]elp', noremap = true, silent = true, })
