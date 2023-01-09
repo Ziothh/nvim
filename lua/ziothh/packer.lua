@@ -105,19 +105,25 @@ packer.startup(function(use)
   use 'tpope/vim-rhubarb'
   use 'lewis6991/gitsigns.nvim'
 
-  -- Themes
+  -- [[ Themes ]]
   use 'navarasu/onedark.nvim' -- Theme inspired by Atom
   use({
     'rose-pine/neovim',
     as = 'rose-pine',
-    config = function()
-      vim.cmd('colorscheme rose-pine')
-    end
+    -- config = function()
+    --   vim.cmd('colorscheme rose-pine')
+    -- end
   })
   use({
     "sainnhe/sonokai",
     as = "sonokai",
   })
+  use({
+    'catppuccin/vim',
+    as = 'catppuccin'
+  })
+  use 'folke/tokyonight.nvim'
+  use "lunarvim/lunar.nvim"
   --     use {
   --     "lunarvim/onedarker.nvim",
   --     -- branch = "freeze",
@@ -172,9 +178,7 @@ packer.startup(function(use)
     --   end,
   }
 
-  -- Themes
-  use "folke/tokyonight.nvim"
-  use "lunarvim/lunar.nvim"
+
 
   -- Utils
   use "Tastyep/structlog.nvim"

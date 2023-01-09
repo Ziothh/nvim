@@ -3,6 +3,3 @@
 
 require("ziothh.config")
 require("ziothh.plugins")
-
-print("Ziothh config loaded");
-
