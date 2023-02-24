@@ -54,11 +54,17 @@ local servers = {
   -- pyright = {},
   rust_analyzer = {},
   tsserver = {
+    on_attach = function(client, bufnr)
+      client.server_capabilities.documentFormattingProvider  = false
+      on_attach(client, bufnr)
+      vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>f", "<cmd>:Format<CR>", {}) -- command defined in the global on_attach
+    end,
+    documentFormattingProvider = false,
+    document_formatting = false,
     -- on_attach = on_attach,
     filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
     cmd = { "typescript-language-server", "--stdio" }
   },
-
   -- sumneko_lua = {
   --   Lua = {
   --     workspace = { checkThirdParty = false },
@@ -67,7 +73,7 @@ local servers = {
   -- },
 }
 
--- Override borders globally 
+-- Override borders globally
 local border = "rounded"
 local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
 function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
@@ -95,24 +101,33 @@ mason_lspconfig.setup {
 
 mason_lspconfig.setup_handlers {
   function(server_name)
+    local server_settings = servers[server_name]
+    local server_on_attach = on_attach
+    if (server_settings) then
+      -- print(server_name, server_settings)
+      server_on_attach = server_settings.on_attach
+      server_settings["on_attach"] = nil
+    end
+
+
     require('lspconfig')[server_name].setup {
       capabilities = capabilities,
-      on_attach = on_attach,
-      settings = servers[server_name],
+      on_attach = server_on_attach,
+      settings = server_settings,
     }
   end,
 }
 
 -- null_ls
 local null_ls = require("null-ls")
-
 null_ls.setup({
-    sources = {
-        null_ls.builtins.formatting.stylua,
-        null_ls.builtins.diagnostics.eslint_d,
-        null_ls.builtins.completion.spell,
-        null_ls.builtins.formatting.prettierd,
-    },
+  sources = {
+    null_ls.builtins.diagnostics.eslint_d,
+    null_ls.builtins.formatting.prettierd,
+    null_ls.builtins.formatting.stylua,
+    null_ls.builtins.formatting.eslint_d,
+    null_ls.builtins.completion.spell,
+  },
 })
 
 -- Turn on lsp status information
@@ -129,7 +144,7 @@ cmp.setup {
     end,
   },
   mapping = cmp.mapping.preset.insert {
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-d>'] = cmp.mapping.scroll_docs( -4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     -- ['<Tab>'] = cmp.mapping.confirm {
@@ -155,8 +170,8 @@ cmp.setup {
     ['<S-Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
+      elseif luasnip.jumpable( -1) then
+        luasnip.jump( -1)
       else
         fallback()
       end
@@ -167,7 +182,7 @@ cmp.setup {
     { name = 'path' }, -- file paths
     { name = 'nvim_lsp_signature_help' }, -- display function signatures with current parameter emphasized
     { name = 'luasnip' },
-    { name = 'nvim_lua', keyword_length = 2 }, -- complete neovim's Lua runtime API such vim.lsp.*
+    { name = 'nvim_lua',               keyword_length = 2 }, -- complete neovim's Lua runtime API such vim.lsp.*
     { name = 'calc' }, -- source for math calculation
   },
   window = {
@@ -207,7 +222,7 @@ local func = luasnip.function_node
 local choice = luasnip.choice_node
 local dynamicn = luasnip.dynamic_node
 local function newline()
-  return text({"", ""}) 
+  return text({ "", "" })
 end
 
 
@@ -277,7 +292,6 @@ rt.setup({
   },
 })
 ]]
-
 -- diagnostics
 -- LSP Diagnostics Options Setup
 local sign = function(opts)
