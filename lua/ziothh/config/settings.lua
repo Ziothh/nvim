@@ -48,6 +48,10 @@ vim.opt.splitbelow = true -- force all horizontal splits to go below current win
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
 
+-- Wild menu config
+vim.opt.wildmenu = true
+vim.opt.wildmode = "list:longest,list:full"
+
 -- Shit I don't know what it does :)
 vim.opt.scrolloff = 8 -- minimal number of screen lines to keep above and below the cursor.
 vim.opt.isfname:append("@-@")
@@ -86,3 +90,15 @@ local default_options = {
 for k, v in pairs(default_options) do
 vim.opt[k] = v
 end
+
+vim.api.nvim_create_autocmd('BufWinEnter', {
+  pattern = "*",
+  callback = function()
+    vim.opt.formatoptions = vim.opt.formatoptions + {
+      c = false,
+      o = false,
+      r = true,
+    }
+  end,
+})
+

@@ -59,12 +59,12 @@ local servers = {
     cmd = { "typescript-language-server", "--stdio" }
   },
 
-  sumneko_lua = {
-    Lua = {
-      workspace = { checkThirdParty = false },
-      telemetry = { enable = false },
-    },
-  },
+  -- sumneko_lua = {
+  --   Lua = {
+  --     workspace = { checkThirdParty = false },
+  --     telemetry = { enable = false },
+  --   },
+  -- },
 }
 
 -- Override borders globally 
@@ -102,6 +102,18 @@ mason_lspconfig.setup_handlers {
     }
   end,
 }
+
+-- null_ls
+local null_ls = require("null-ls")
+
+null_ls.setup({
+    sources = {
+        null_ls.builtins.formatting.stylua,
+        null_ls.builtins.diagnostics.eslint_d,
+        null_ls.builtins.completion.spell,
+        null_ls.builtins.formatting.prettierd,
+    },
+})
 
 -- Turn on lsp status information
 require('fidget').setup()

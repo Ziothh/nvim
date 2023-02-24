@@ -14,11 +14,17 @@ require("ziothh.plugins.lualine")
 require("ziothh.plugins.gitsigns")
 require("ziothh.plugins.telescope")
 require("ziothh.plugins.treesitter")
-require("ziothh.plugins.lsp")
 require("ziothh.plugins.breadcrumbs")
 require("ziothh.plugins.harpoon")
 require("ziothh.plugins.undotree")
 require("ziothh.plugins.zenmode")
+
+--- LSP
+require("ziothh.plugins.lsp")
+require("ziothh.plugins.prettier")
+
+-- Command mode
+require("ziothh.plugins.wilder")
 
 -- Floating terminal
 require("ziothh.plugins.floaterm")

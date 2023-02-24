@@ -145,6 +145,9 @@ packer.startup(function(use)
   -- use 'vim-airline/vim-airline' -- A lualine alternative
 
 
+  -- Command mode auto-completion
+  use 'gelguy/wilder.nvim'
+
   -- Fuzzy finder
   --- Fuzzy Finder (files, lsp, etc)
   use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
@@ -170,6 +173,7 @@ packer.startup(function(use)
   -- { "neovim/nvim-lspconfig" },
   use("tamago324/nlsp-settings.nvim")
   use "jose-elias-alvarez/null-ls.nvim"
+  use "MunifTanjim/prettier.nvim"
   use "williamboman/mason-lspconfig.nvim"
   use {
     "williamboman/mason.nvim",
