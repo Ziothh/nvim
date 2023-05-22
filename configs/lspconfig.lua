@@ -3,16 +3,16 @@ local capabilities = require("plugins.configs.lspconfig").capabilities
 local rust_tools = require "rust-tools"
 local lspconfig = require "lspconfig"
 
-rust_tools.setup {
-  server = {
-    on_attach = function(_, bufnr)
-      -- Hover actions
-      vim.keymap.set("n", "<S-k>", rust_tools.hover_actions.hover_actions, { buffer = bufnr })
-      -- Code action groups
-      vim.keymap.set("n", "<Leader>ca", rust_tools.code_action_group.code_action_group, { buffer = bufnr })
-    end,
-  },
-}
+-- rust_tools.setup {
+--   server = {
+--     on_attach = function(_, bufnr)
+--       -- Hover actions
+--       vim.keymap.set("n", "<S-k>", rust_tools.hover_actions.hover_actions, { buffer = bufnr })
+--       -- Code action groups
+--       vim.keymap.set("n", "<Leader>ca", rust_tools.code_action_group.code_action_group, { buffer = bufnr })
+--     end,
+--   },
+-- }
 
 -- lspconfig.rust_analyzer.setup {
 --   flags = {
@@ -42,36 +42,34 @@ rust_tools.setup {
 -- }
 
 -- if you just want default config for the servers then put them in a table
-local servers = {
-  --
-  "html",
-  "cssls",
-  "tsserver",
-  "clangd",
-  -- "rust_analyzer", -- is handled above
-}
-
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    on_attach = function(client, bufnr)
-      print(lsp, client.server_capabilities.documentSymbolProvider)
-      if client.server_capabilities.documentSymbolProvider then
-        local navic = require "nvim-navic"
-        navic.attach(client, bufnr)
-      end
-
-      on_attach(client, bufnr)
-    end,
-    capabilities = capabilities,
-  }
-end
+-- local servers = {
+--   --
+--   "html",
+--   "cssls",
+--   "tsserver",
+--   "clangd",
+--   -- "rust_analyzer", -- is handled above
+-- }
+--
+-- for _, lsp in ipairs(servers) do
+--   lspconfig[lsp].setup {
+--     on_attach = function(client, bufnr)
+--       print(lsp, client.server_capabilities.documentSymbolProvider)
+--       if client.server_capabilities.documentSymbolProvider then
+--         local navic = require "nvim-navic"
+--         navic.attach(client, bufnr)
+--       end
+--
+--       on_attach(client, bufnr)
+--     end,
+--     capabilities = capabilities,
+--   }
+-- end
 
 --
 -- lspconfig.pyright.setup { blabla}
 
 
-local on_attach = require("plugins.configs.lspconfig").on_attach
-local lspconfig = require "lspconfig"
 
 local M = {}
 
@@ -215,7 +213,8 @@ M.setup = function(on_attach, capabilities)
         client.server_capabilities.documentRangeFormattingProvider = true
       end
     end,
-
+   -- filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
+   -- cmd = { "typescript-language-server", "--stdio" }
     ---@diagnostic disable-next-line: unused-local
     -- on_attach = function(client, _bufnr)
     --   local null_ls = require "custom.configs.null-ls"
