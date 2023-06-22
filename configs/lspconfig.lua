@@ -107,8 +107,11 @@ local servers = {
   -- pyright = {},
   html = {},
   cssls = {},
+  prismals = {},
   clangd = {},
-  tailwindcss = {},
+  -- tailwindcss = {},
+  graphql = {},
+  terraformls = {},
   jsonls = {
     json = {
       schemas = {
@@ -160,19 +163,19 @@ local servers = {
       },
     },
   },
-  emmet_ls = {
-    -- on_attach = on_attach,
-    -- capabilities = capabilities,
-    filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less" },
-    init_options = {
-      html = {
-        options = {
-          -- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
-          ["bem.enabled"] = true,
-        },
-      },
-    },
-  },
+  -- emmet_ls = {
+  --   -- on_attach = on_attach,
+  --   -- capabilities = capabilities,
+  --   filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less" },
+  --   init_options = {
+  --     html = {
+  --       options = {
+  --         -- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
+  --         ["bem.enabled"] = true,
+  --       },
+  --     },
+  --   },
+  -- },
 }
 
 M.setup = function(on_attach, capabilities)
@@ -197,6 +200,8 @@ M.setup = function(on_attach, capabilities)
         if settings and settings["on_attach"] then
           settings.on_attach(client, bufnr)
         end
+
+        require('custom.configs.treesitter').set_default_hlgroups()
       end,
       capabilities = capabilities,
       settings = servers[lsp],
@@ -212,9 +217,11 @@ M.setup = function(on_attach, capabilities)
         client.server_capabilities.documentFormattingProvider = true
         client.server_capabilities.documentRangeFormattingProvider = true
       end
+
+      require('custom.configs.treesitter').set_default_hlgroups()
     end,
-   -- filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
-   -- cmd = { "typescript-language-server", "--stdio" }
+   -- filetypes = { "Javascript", "javascriptreact", "typescript", "typescriptreact", "typescript.tsx" },
+   cmd = { "typescript-language-server", "--stdio" }
     ---@diagnostic disable-next-line: unused-local
     -- on_attach = function(client, _bufnr)
     --   local null_ls = require "custom.configs.null-ls"

@@ -36,12 +36,12 @@ local sources = {
 }
 
 if M.eslint_enabled then
-  table.insert(sources, null_ls.builtins.diagnostics.eslint_d.with {
+  table.insert(sources, null_ls.builtins.diagnostics.eslint.with {
     diagnostics_format = "[eslint] #{m}\n(#{c})",
   })
 
-  table.insert(sources, null_ls.builtins.code_actions.eslint_d)
-  table.insert(sources, null_ls.builtins.formatting.eslint_d)
+  table.insert(sources, null_ls.builtins.code_actions.eslint)
+  table.insert(sources, null_ls.builtins.formatting.eslint)
 end
 
 M.setup = function()

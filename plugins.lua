@@ -193,7 +193,40 @@ local plugins = {
       require("custom.configs.rust-tools").setup()
     end, -- Override to setup mason-lspconfig
   },
+  {
+    "ThePrimeagen/git-worktree.nvim",
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+    },
+    config = function(_, opts)
+      require("git-worktree").setup({
+          -- change_directory_command = <str> -- default: "cd",
+          -- update_on_change = <boolean> -- default: true,
+          -- update_on_change_command = <str> -- default: "e .",
+          -- clearjumps_on_change = <boolean> -- default: true,
+          -- autopush = <boolean> -- default: false,
+      })
 
+      require("telescope").load_extension("git_worktree")
+
+      -- -- Creates a worktree.  Requires the path, branch name, and the upstream
+      -- -- Example:
+      -- :lua require("git-worktree").create_worktree("feat-69", "master", "origin")
+      --
+      -- -- switches to an existing worktree.  Requires the path name
+      -- -- Example:
+      -- :lua require("git-worktree").switch_worktree("feat-69")
+      --
+      -- -- deletes to an existing worktree.  Requires the path name
+      -- -- Example:
+      -- :lua require("git-worktree").delete_worktree("feat-69")
+
+      vim.keymap.set("n", "<leader>gwt", function ()
+        require('telescope').extensions.git_worktree.git_worktrees()
+      end, { desc = "Manage [G]it [W]ork [T]rees" })
+    end,
+    event = "VeryLazy",
+  },
   {
     "theprimeagen/harpoon",
     config = function(_, opts)
@@ -231,7 +264,7 @@ local plugins = {
           line_number_text    = "Line %s out of %s",        -- Format string rendered when `enable_line_number` is set to true (either string or function(line_number: number, line_count: number): string)
       })
     end
-  }
+  },
 }
 
 return plugins
