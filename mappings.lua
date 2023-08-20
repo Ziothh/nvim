@@ -6,11 +6,16 @@ M.general = {
     ["<Space>"] = { "<Nop>" },
     ["<F1>"] = { "<Nop>" },
     ["Q"] = { "<Nop>" },
-    ["<leader>X"] = {
+    ["<leader>xa"] = {
       function()
         require("nvchad_ui.tabufline").closeAllBufs()
       end,
       "Close all buffers"
+    },
+    ["<leader>X"] = {
+      "<cmd>!chmod +x %<CR>", 
+      "cmod a script to be executable", 
+      { silent = true }
     },
     [";"] = { ":", "enter command mode", opts = { nowait = true } },
     ["x"] = { '"_x', "Delete char without overwriting to copy buffer" },
