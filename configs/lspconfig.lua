@@ -103,82 +103,94 @@ local M = {}
 local servers = {
   -- "rust_analyzer", -- is handled above
   -- clangd = {},
-  -- gopls = {},
+  gopls = {},
   -- pyright = {},
+  lua_ls = {},
   html = {},
   cssls = {},
   prismals = {},
   clangd = {},
-  rnix = {},
+  -- rnix = {},
+  nil_ls = {},
   tailwindcss = {},
   graphql = {},
   terraformls = {},
   marksman = {},
   yamlls = {},
   jsonls = {
-    json = {
-      schemas = {
-        {
-          description = "Javascript configuration file",
-          fileMatch = { "package.json" },
-          url = "http://json.schemastore.org/package.json",
-        },
-        {
-          description = "TypeScript compiler configuration file",
-          fileMatch = { "tsconfig.json", "tsconfig.*.json" },
-          url = "http://json.schemastore.org/tsconfig",
-        },
-        {
-          description = "Lerna config",
-          fileMatch = { "lerna.json" },
-          url = "http://json.schemastore.org/lerna",
-        },
-        -- {
-        --   description = "Babel configuration",
-        --   fileMatch = { ".babelrc.json", ".babelrc", "babel.config.json" },
-        --   url = "http://json.schemastore.org/lerna",
-        -- },
-        {
-          description = "ESLint config",
-          fileMatch = { ".eslintrc.json", ".eslintrc" },
-          url = "http://json.schemastore.org/eslintrc",
-        },
-        -- {
-        --   description = "Bucklescript config",
-        --   fileMatch = { "bsconfig.json" },
-        --   url = "https://bucklescript.github.io/bucklescript/docson/build-schema.json",
-        -- },
-        {
-          description = "Prettier config",
-          fileMatch = { ".prettierrc", ".prettierrc.json", "prettier.config.json" },
-          url = "http://json.schemastore.org/prettierrc",
-        },
-        {
-          description = "Vercel Now config",
-          fileMatch = { "now.json" },
-          url = "http://json.schemastore.org/now",
-        },
-        {
-          description = "Stylelint config",
-          fileMatch = { ".stylelintrc", ".stylelintrc.json", "stylelint.config.json" },
-          url = "http://json.schemastore.org/stylelintrc",
+    settings = {
+      json = {
+        schemas = {
+          {
+            description = "Javascript configuration file",
+            fileMatch = { "package.json" },
+            url = "http://json.schemastore.org/package.json",
+          },
+          {
+            description = "TypeScript compiler configuration file",
+            fileMatch = { "tsconfig.json", "tsconfig.*.json" },
+            url = "http://json.schemastore.org/tsconfig",
+          },
+          {
+            description = "Lerna config",
+            fileMatch = { "lerna.json" },
+            url = "http://json.schemastore.org/lerna",
+          },
+          -- {
+          --   description = "Babel configuration",
+          --   fileMatch = { ".babelrc.json", ".babelrc", "babel.config.json" },
+          --   url = "http://json.schemastore.org/lerna",
+          -- },
+          {
+            description = "ESLint config",
+            fileMatch = { ".eslintrc.json", ".eslintrc" },
+            url = "http://json.schemastore.org/eslintrc",
+          },
+          -- {
+          --   description = "Bucklescript config",
+          --   fileMatch = { "bsconfig.json" },
+          --   url = "https://bucklescript.github.io/bucklescript/docson/build-schema.json",
+          -- },
+          {
+            description = "Prettier config",
+            fileMatch = { ".prettierrc", ".prettierrc.json", "prettier.config.json" },
+            url = "http://json.schemastore.org/prettierrc",
+          },
+          {
+            description = "Vercel Now config",
+            fileMatch = { "now.json" },
+            url = "http://json.schemastore.org/now",
+          },
+          {
+            description = "Stylelint config",
+            fileMatch = { ".stylelintrc", ".stylelintrc.json", "stylelint.config.json" },
+            url = "http://json.schemastore.org/stylelintrc",
+          },
+        }, -- schemas
+      }, -- json
+    }, -- settings
+  }, -- jsonls
+  tsserver = {
+    on_attach = function(client, bufnr)
+      -- if null_ls.eslint_enabled == false then
+        client.server_capabilities.documentFormattingProvider = true
+        client.server_capabilities.documentRangeFormattingProvider = true
+      -- end
+    end,
+  },
+  emmet_ls = {
+    -- on_attach = on_attach,
+    -- capabilities = capabilities,
+    filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less" },
+    init_options = {
+      html = {
+        options = {
+          -- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
+          ["bem.enabled"] = true,
         },
       },
     },
   },
-  -- emmet_ls = {
-  --   -- on_attach = on_attach,
-  --   -- capabilities = capabilities,
-  --   filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less" },
-  --   init_options = {
-  --     html = {
-  --       options = {
-  --         -- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
-  --         ["bem.enabled"] = true,
-  --       },
-  --     },
-  --   },
-  -- },
 }
 
 M.setup = function(on_attach, capabilities)
@@ -199,51 +211,52 @@ M.setup = function(on_attach, capabilities)
           navic.attach(client, bufnr)
         end
 
-        local settings = servers[lsp]
-        if settings and settings["on_attach"] then
-          settings.on_attach(client, bufnr)
+        if servers[lsp]['on_attach'] then
+          servers[lsp]['on_attach'](client, bufnr)
         end
 
         require('custom.configs.treesitter').set_default_hlgroups()
       end,
+      -- TODO: merge capabilities
       capabilities = capabilities,
-      settings = servers[lsp],
+      -- TODO: merge settings
+      settings = servers[lsp]['settings'],
     }
   end
 
-  lspconfig["tsserver"].setup {
-    capabilities,
-    on_attach = function(client, bufnr)
-      on_attach(client, bufnr)
-
-      if null_ls.eslint_enabled == false then
-        client.server_capabilities.documentFormattingProvider = true
-        client.server_capabilities.documentRangeFormattingProvider = true
-      end
-
-      require('custom.configs.treesitter').set_default_hlgroups()
-    end,
-   -- filetypes = { "Javascript", "javascriptreact", "typescript", "typescriptreact", "typescript.tsx" },
-   cmd = { "typescript-language-server", "--stdio" }
-    ---@diagnostic disable-next-line: unused-local
-    -- on_attach = function(client, _bufnr)
-    --   local null_ls = require "custom.configs.null-ls"
-    --
-    --   if null_ls.eslint_enabled == false then
-    --     client.server_capabilities.documentFormattingProvider = true
-    --     client.server_capabilities.documentRangeFormattingProvider = true
-    --   end
-    --   --   client.server_capabilities.documentFormattingProvider = false -- For eslint
-    --   --   -- client.server_capabilities.documentFormattingProvider = false
-    --   --   on_attach(client, bufnr)
-    --   --   vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>f", "<cmd>:Format<CR>", {}) -- command defined in the global on_attach
-    -- end,
-    -- documentFormattingProvider = false,
-    -- document_formatting = false,
-    -- -- on_attach = on_attach,
-    -- filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
-    -- cmd = { "typescript-language-server", "--stdio" }
-  }
+  -- lspconfig["tsserver"].setup {
+  --   capabilities,
+  --   on_attach = function(client, bufnr)
+  --     on_attach(client, bufnr)
+  --
+  --     if null_ls.eslint_enabled == false then
+  --       client.server_capabilities.documentFormattingProvider = true
+  --       client.server_capabilities.documentRangeFormattingProvider = true
+  --     end
+  --
+  --     require('custom.configs.treesitter').set_default_hlgroups()
+  --   end,
+  --  -- filetypes = { "Javascript", "javascriptreact", "typescript", "typescriptreact", "typescript.tsx" },
+  --  cmd = { "typescript-language-server", "--stdio" }
+  --   ---@diagnostic disable-next-line: unused-local
+  --   -- on_attach = function(client, _bufnr)
+  --   --   local null_ls = require "custom.configs.null-ls"
+  --   --
+  --   --   if null_ls.eslint_enabled == false then
+  --   --     client.server_capabilities.documentFormattingProvider = true
+  --   --     client.server_capabilities.documentRangeFormattingProvider = true
+  --   --   end
+  --   --   --   client.server_capabilities.documentFormattingProvider = false -- For eslint
+  --   --   --   -- client.server_capabilities.documentFormattingProvider = false
+  --   --   --   on_attach(client, bufnr)
+  --   --   --   vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>f", "<cmd>:Format<CR>", {}) -- command defined in the global on_attach
+  --   -- end,
+  --   -- documentFormattingProvider = false,
+  --   -- document_formatting = false,
+  --   -- -- on_attach = on_attach,
+  --   -- filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
+  --   -- cmd = { "typescript-language-server", "--stdio" }
+  -- }
 end
 
 return M
