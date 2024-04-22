@@ -2,6 +2,7 @@ local on_attach = require("plugins.configs.lspconfig").on_attach
 local capabilities = require("plugins.configs.lspconfig").capabilities
 local rust_tools = require "rust-tools"
 local lspconfig = require "lspconfig"
+local null_ls = require "custom.configs.null-ls"
 
 -- rust_tools.setup {
 --   server = {
@@ -113,7 +114,9 @@ local servers = {
   -- rnix = {},
   nil_ls = {},
   tailwindcss = {},
-  graphql = {},
+  graphql = {
+    filetypes = { "graphql", "typescript", "typescriptreact", "javascriptreact" },
+  },
   terraformls = {},
   marksman = {},
   yamlls = {},
@@ -167,15 +170,14 @@ local servers = {
             url = "http://json.schemastore.org/stylelintrc",
           },
         }, -- schemas
-      }, -- json
-    }, -- settings
-  }, -- jsonls
+      },   -- json
+    },     -- settings
+  },       -- jsonls
   tsserver = {
     on_attach = function(client, bufnr)
-      -- if null_ls.eslint_enabled == false then
-        client.server_capabilities.documentFormattingProvider = true
-        client.server_capabilities.documentRangeFormattingProvider = true
-      -- end
+      local is_formatter = not null_ls.eslint_enabled
+      client.server_capabilities.documentFormattingProvider = is_formatter
+      client.server_capabilities.documentRangeFormattingProvider = is_formatter
     end,
   },
   emmet_ls = {
@@ -194,22 +196,20 @@ local servers = {
 }
 
 M.setup = function(on_attach, capabilities)
-  local null_ls = require "custom.configs.null-ls"
-
   for lsp, _ in pairs(servers) do
     if servers[lsp]["capabilities"] == nil then
       servers[lsp]["capabilities"] = {}
     end
 
-    lspconfig[lsp].setup {
+    local config = {
       on_attach = function(client, bufnr)
         -- NvChad defaults
         on_attach(client, bufnr)
 
-        if client.server_capabilities.documentSymbolProvider then
-          local navic = require "nvim-navic"
-          navic.attach(client, bufnr)
-        end
+        -- if client.server_capabilities.documentSymbolProvider then
+        --   local navic = require "nvim-navic"
+        --   navic.attach(client, bufnr)
+        -- end
 
         if servers[lsp]['on_attach'] then
           servers[lsp]['on_attach'](client, bufnr)
@@ -222,6 +222,12 @@ M.setup = function(on_attach, capabilities)
       -- TODO: merge settings
       settings = servers[lsp]['settings'],
     }
+
+    if servers[lsp]['filetypes'] ~= nil then
+      config['filetypes'] = servers[lsp]['filetypes']
+    end
+
+    lspconfig[lsp].setup(config)
   end
 
   -- lspconfig["tsserver"].setup {
