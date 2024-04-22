@@ -239,6 +239,14 @@ api.nvim_create_autocmd("ColorScheme", {
   desc = "Set default highlights",
 })
 
+-- .env files are a subset of shell files so this highlighting works
+vim.filetype.add({
+  pattern = {
+    [".env.*"] = "sh",
+  }
+})
+
+
 -- define highlights
 M.set_default_hlgroups()
 
