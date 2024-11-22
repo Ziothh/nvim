@@ -25,12 +25,12 @@ vim.wo.wrap = false
 local tab_size = 4
 vim.opt.tabstop = tab_size
 vim.opt.softtabstop = tab_size -- insert #tab_size spaces for a tab
-vim.opt.shiftwidth = tab_size -- the number of spaces inserted for each indentation
-vim.opt.expandtab = true -- convert tabs to spaces
+vim.opt.shiftwidth = tab_size  -- the number of spaces inserted for each indentation
+vim.opt.expandtab = true       -- convert tabs to spaces
 
 -- Save undo history
 vim.opt.swapfile = false
-vim.opt.backup = false -- creates a backup file
+vim.opt.backup = false  -- creates a backup file
 vim.opt.undodir = os.getenv "HOME" .. "/.vim/undodir"
 vim.opt.undofile = true -- enable persistent undo
 
@@ -38,12 +38,12 @@ vim.opt.undofile = true -- enable persistent undo
 vim.opt.incsearch = true
 --- Set highlight on search
 vim.o.hlsearch = false -- highlight all matches on previous search pattern
---- Case insensitive searching UNLESS /C or capital in search
-vim.o.ignorecase = true -- ignore case in search patterns
-vim.o.smartcase = true -- smart case
+  --- Case insensitive searching UNLESS /C or capital in search
+  vim.o.ignorecase = true -- ignore case in search patterns
+  vim.o.smartcase = true  -- smart case
 
 -- Decrease update time
-vim.o.updatetime = 50 -- faster completion
+vim.o.updatetime = 50     -- faster completion
 vim.wo.signcolumn = "yes" -- always show the sign column, otherwise it would shift the text each time
 
 -- Set completeopt to have a better completion experience

@@ -73,7 +73,7 @@ vim.g.diagnostics_reduced = false
 vim.keymap.set("n", "<leader>dt", function()
   vim.g.diagnostics_reduced = not vim.g.diagnostics_reduced
 
-  print(vim.g.diagnostics_reduced)
+--   print("vim.g.diagnostics_reduced =", vim.g.diagnostics_reduced)
 
   if vim.g.diagnostics_reduced then
     vim.diagnostic.config {

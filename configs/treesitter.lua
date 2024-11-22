@@ -137,8 +137,6 @@ local function link_all_captures()
   end
 end
 
-link_all_captures()
-
 function M.set_default_hlgroups()
   if not ts.highlighter.hl_map and not vim.g.skip_ts_default_groups then
     link_all_captures()
@@ -232,6 +230,9 @@ function M.set_default_hlgroups()
   end
 end
 
+
+link_all_captures()
+
 local augroup = api.nvim_create_augroup("NvimTreesitter", {})
 api.nvim_create_autocmd("ColorScheme", {
   group = augroup,
@@ -245,6 +246,7 @@ vim.filetype.add({
     [".env.*"] = "sh",
   }
 })
+
 
 
 -- define highlights
