@@ -53,3 +53,10 @@ vim.o.completeopt = "menuone,noselect"
 vim.opt.scrolloff = 8 -- minimal number of screen lines to keep above and below the cursor.
 vim.opt.isfname:append "@-@"
 -- vim.opt.colorcolumn = "80" -- TODO: activate
+
+-- [ Auto  commands ]
+vim.api.nvim_create_autocmd('TextYankPost', {
+  callback = function()
+    vim.highlight.on_yank({ timeout = 100 })
+  end,
+})
