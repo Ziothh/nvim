@@ -105,7 +105,7 @@ local servers = {
   -- "rust_analyzer", -- is handled above
   -- clangd = {},
   gopls = {},
-  -- pyright = {},
+  pyright = {},
   lua_ls = {},
   html = {},
   cssls = {},
