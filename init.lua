@@ -22,7 +22,7 @@ vim.o.breakindent = true
 vim.wo.wrap = false
 
 -- Tab conficuration
-local tab_size = 2
+local tab_size = 4
 vim.opt.tabstop = tab_size
 vim.opt.softtabstop = tab_size -- insert #tab_size spaces for a tab
 vim.opt.shiftwidth = tab_size -- the number of spaces inserted for each indentation
