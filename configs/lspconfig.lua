@@ -173,7 +173,7 @@ local servers = {
       },   -- json
     },     -- settings
   },       -- jsonls
-  tsserver = {
+  ts_ls = {
     on_attach = function(client, bufnr)
       local is_formatter = not null_ls.eslint_enabled
       client.server_capabilities.documentFormattingProvider = is_formatter
