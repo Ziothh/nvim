@@ -184,6 +184,7 @@ local plugins = {
 
   {
     "simrat39/rust-tools.nvim",
+
     event = "BufEnter",
     -- init = function()
     --   require("core.utils").lazy_load "nvim-lspconfig"

@@ -231,15 +231,6 @@ function M.set_default_hlgroups()
 end
 
 
-link_all_captures()
-
-local augroup = api.nvim_create_augroup("NvimTreesitter", {})
-api.nvim_create_autocmd("ColorScheme", {
-  group = augroup,
-  callback = M.set_default_hlgroups,
-  desc = "Set default highlights",
-})
-
 -- .env files are a subset of shell files so this highlighting works
 vim.filetype.add({
   pattern = {
@@ -250,6 +241,13 @@ vim.filetype.add({
 
 
 -- define highlights
+link_all_captures()
+local augroup = api.nvim_create_augroup("NvimTreesitter", {})
+api.nvim_create_autocmd("ColorScheme", {
+  group = augroup,
+  callback = M.set_default_hlgroups,
+  desc = "Set default highlights",
+})
 M.set_default_hlgroups()
 
 return M

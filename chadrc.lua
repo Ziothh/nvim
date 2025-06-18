@@ -17,7 +17,7 @@ M.ui = {
     style = "default",
   },
   lsp = {},
-  -- theme_toggle = { "catppuccin", "one_light" },
+  --theme_toggle = { "catppuccin", "falcon", "monochrome", "rosepine" },
 
   hl_override = highlights.override,
   hl_add = highlights.add,
