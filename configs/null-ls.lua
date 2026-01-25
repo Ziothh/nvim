@@ -41,6 +41,7 @@ if M.prettier_enabled then
             "typescript",
             "typescriptreact",
             "json",
+            "markdown",
             "scss",
             "less",
         }, -- so prettier works only on these filetypes

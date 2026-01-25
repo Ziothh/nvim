@@ -233,6 +233,9 @@ end
 
 -- .env files are a subset of shell files so this highlighting works
 vim.filetype.add({
+  extension = {
+    mdc = "markdown",
+  },
   pattern = {
     [".env.*"] = "sh",
   }
