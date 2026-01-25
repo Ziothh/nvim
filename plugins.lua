@@ -124,6 +124,10 @@ local plugins = {
       end, 0)
     end,
   },
+  {
+    "NvChad/nvterm",
+    enabled = false,
+  },
 
   {
     "gelguy/wilder.nvim",
