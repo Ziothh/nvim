@@ -36,6 +36,38 @@ local plugins = {
   {
     "hrsh7th/nvim-cmp",
     opts = overrides.cmp,
+    dependencies = { "hrsh7th/cmp-cmdline" },
+    config = function(_, opts)
+      local cmp = require "cmp"
+      cmp.setup(opts)
+
+      local cmdline_mapping = cmp.mapping.preset.cmdline {
+        ["<Tab>"] = cmp.mapping(function()
+          if cmp.visible() then
+            cmp.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true }
+          else
+            cmp.complete()
+          end
+        end, { "c" }),
+        ["<S-Tab>"] = cmp.mapping(function(fallback) fallback() end, { "c" }),
+      }
+
+      -- Strip the icon + kind that NvChad's global formatter injects.
+      -- For cmdline, just show the completion text.
+      local cmdline_formatting = { fields = { "abbr" } }
+
+      cmp.setup.cmdline(":", {
+        mapping = cmdline_mapping,
+        formatting = cmdline_formatting,
+        sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
+      })
+
+      cmp.setup.cmdline({ "/", "?" }, {
+        mapping = cmdline_mapping,
+        formatting = cmdline_formatting,
+        sources = { { name = "buffer" } },
+      })
+    end,
   },
 
   -- override plugin configs
@@ -127,41 +159,6 @@ local plugins = {
   {
     "NvChad/nvterm",
     enabled = false,
-  },
-
-  {
-    "gelguy/wilder.nvim",
-    event = "CmdlineEnter",
-    config = function()
-      local wilder = require "wilder"
-      wilder.setup {
-        modes = { ":", "/", "?" },
-        next_key = "<C-n>",
-        previous_key = "<C-p>",
-        accept_key = "<Tab>",
-        reject_key = "<S-Tab>",
-      }
-
-      wilder.set_option(
-        "renderer",
-        wilder.popupmenu_renderer(wilder.popupmenu_border_theme {
-          highlighter = wilder.basic_highlighter(),
-          left = { " ", wilder.popupmenu_devicons() },
-          right = { " ", wilder.popupmenu_scrollbar() },
-          accent = wilder.make_hl("WilderAccent", "Pmenu", { { a = 1 }, { a = 1 }, { foreground = "#f4468f" } }),
-          -- separator = " · ",
-          -- left = { " ", wilder.wildmenu_spinner(), " " }, -- Show spinner
-          -- right = { " ", wilder.wildmenu_index() }, -- Show number of items
-          highlights = {
-            border = "Normal", -- highlight to use for the border
-          },
-          -- pumblend = 20, -- Opacity
-          -- 'single', 'double', 'rounded' or 'solid'
-          -- can also be a list of 8 characters, see :h wilder#popupmenu_border_theme() for more details
-          border = "rounded",
-        })
-      )
-    end,
   },
 
   {
