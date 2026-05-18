@@ -14,11 +14,6 @@ map("n", "<leader>dn", function()
   vim.diagnostic.jump { count = 1, float = true }
 end, { desc = "[D]iagnostic: [N]ext", silent = true, noremap = true })
 
-map("n", "<leader>d", vim.diagnostic.open_float, {
-  desc = "Open diagnostic on cursor",
-  silent = true,
-  noremap = true,
-})
 map("n", "<leader>dd", vim.diagnostic.open_float, {
   desc = "Open diagnostic on cursor",
   silent = true,
