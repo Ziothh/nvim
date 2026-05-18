@@ -111,7 +111,13 @@ local servers = {
   clangd = {},
   -- rnix = {},
   nil_ls = {},
-  tailwindcss = {},
+  tailwindcss = {
+    settings = {
+      tailwindCSS = {
+        colorDecorators = false,
+      },
+    },
+  },
   graphql = {
     filetypes = { "graphql", "typescript", "typescriptreact", "javascriptreact" },
   },
