@@ -1,7 +1,5 @@
 local on_attach = require("plugins.configs.lspconfig").on_attach
 local capabilities = require("plugins.configs.lspconfig").capabilities
-local rust_tools = require "rust-tools"
-local lspconfig = require "lspconfig"
 local null_ls = require "custom.configs.null-ls"
 
 -- rust_tools.setup {
@@ -227,7 +225,8 @@ M.setup = function(on_attach, capabilities)
       config['filetypes'] = servers[lsp]['filetypes']
     end
 
-    lspconfig[lsp].setup(config)
+    vim.lsp.config(lsp, config)
+    vim.lsp.enable(lsp)
   end
 
   -- lspconfig["tsserver"].setup {

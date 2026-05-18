@@ -1,13 +1,8 @@
 local M = {}
 
 M.setup = function()
-    local rust_tools = require "rust-tools"
-
-    rust_tools.setup {
+    vim.g.rustaceanvim = {
         tools = {
-            runnables = {
-                use_telescope = true,
-            },
             -- inlay_hints = {
             --   auto = true,
             --   show_parameter_hints = false,
@@ -17,21 +12,6 @@ M.setup = function()
         },
         server = {
             on_attach = function(client, bufnr)
-                -- vim.api.nvim_set_hl(0, "DiagnosticHint", { link = "GruvboxFg2" })
-                -- vim.api.nvim_set_hl(0, "DiagnosticSignHint", { link = "GruvboxFg2" })
-                -- vim.api.nvim_set_hl(0, "DiagnosticFloatingHint", { link = "GruvboxFg2" })
-                -- vim.api.nvim_set_hl(0, "DiagnosticUnderlineHint", { undercurl = true, sp = "#d5c4a1" })
-                -- vim.api.nvim_set_hl(0, "DiagnosticVirtualTextHint", { link = "GruvboxFg2" })
-
-                -- vim.api.nvim_set_hl(0, "FloatBorder", { link = "NormalFloat" })
-                --
-                -- vim.api.nvim_set_hl(0, "@none", { bg = "NONE", fg = "NONE" })
-                -- vim.api.nvim_set_hl(0, "@text.strong", { bold = true })
-                -- vim.api.nvim_set_hl(0, "@text.emphasis", { italic = true })
-                -- vim.api.nvim_set_hl(0, "@text.underline", { underline = true })
-                -- vim.api.nvim_set_hl(0, "@text.strike", { strikethrough = true })
-
-                -- treesitter and LSP links to default groups
                 local links = {
                     ["@comment"] = "Comment",
                     ["@preproc"] = "PreProc",
@@ -128,7 +108,6 @@ M.setup = function()
                     ["@lsp.type.method"] = "@method",
                     ["@lsp.type.macro"] = "@macro",
                     ["@lsp.type.decorator"] = "@function",
-                    -- ["@lsp.mod.defaultLibrary"] = "@function.builtin", -- Makes macros blue
                     ["@lsp.mod.readonly"] = "@constant",
                     ["@lsp.typemod.function.defaultLibrary"] = "@function.builtin",
                     ["@lsp.typemod.variable.defaultLibrary"] = "@variable.builtin",
@@ -139,37 +118,20 @@ M.setup = function()
                     vim.api.nvim_set_hl(0, newgroup, { link = oldgroup, default = true })
                 end
 
-
-
-
-
-                -- vim.api.nvim_set_hl(0, "@lsp.type.variable.rust", "TSVariable", { force = true })
-                -- client.server_capabilities.semanticTokensProvider = nil
-
-                -- local file = io.open( "/home/zioth/temp/debug.txt", "w" )
-                -- file:write(
-                --   require('custom.dependencies.inspect').inspect(
-                --   )
-                -- )
-                -- file:close()
-
                 require("custom.utils").set_mappings(
-                -- -- Default NvChad mappings with some custom rust-tools overrides
                     vim.tbl_deep_extend("force", require("core.mappings").lspconfig, {
                         n = {
-                            ["K"] = { rust_tools.hover_actions.hover_actions, { buffer = bufnr } },
-                            ["<leader>ca"] = { rust_tools.code_action_group.code_action_group, { buffer = bufnr } },
+                            ["K"] = {
+                                function() vim.cmd.RustLsp({ "hover", "actions" }) end,
+                                { buffer = bufnr },
+                            },
+                            ["<leader>ca"] = {
+                                function() vim.cmd.RustLsp("codeAction") end,
+                                { buffer = bufnr },
+                            },
                         },
                     })
                 )
-
-                -- client.server_capabilities.documentFormattingProvider = true
-                -- client.server_capabilities.documentRangeFormattingProvider = true
-                -- Hover actions
-                -- vim.keymap.set("n", "<S-k>", rust_tools.hover_actions.hover_actions, { buffer = bufnr })
-                -- Code action groups
-                -- vim.keymap.set("n", "<Leader>ca", rust_tools.code_action_group.code_action_group, { buffer = bufnr })
-                -- vim.g.rust_recommended_style = 0
             end,
         },
     }

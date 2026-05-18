@@ -14,7 +14,7 @@ local plugins = {
     dependencies = {
       -- -- format & linting
       {
-        "jose-elias-alvarez/null-ls.nvim",
+        "nvimtools/none-ls.nvim",
         config = function()
           require("custom.configs.null-ls").setup()
         end,
@@ -187,22 +187,17 @@ local plugins = {
   },
 
   {
-    "simrat39/rust-tools.nvim",
-
-    event = "BufEnter",
-    -- init = function()
-    --   require("core.utils").lazy_load "nvim-lspconfig"
-    -- end,
-    --   -- event = "BufEnter",
+    "mrcjkb/rustaceanvim",
+    version = "^6",
+    ft = { "rust" },
     dependencies = {
       "neovim/nvim-lspconfig",
       "nvim-lua/plenary.nvim",
       "mfussenegger/nvim-dap",
-      "nvim-telescope/telescope.nvim",
     },
-    config = function()
+    init = function()
       require("custom.configs.rust-tools").setup()
-    end, -- Override to setup mason-lspconfig
+    end,
   },
   {
     "ThePrimeagen/git-worktree.nvim",

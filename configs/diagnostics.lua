@@ -16,10 +16,15 @@ vim.diagnostic.config {
 vim.keymap.set(
   "n",
   "<leader>dp",
-  vim.diagnostic.goto_prev,
+  function() vim.diagnostic.jump { count = -1, float = true } end,
   { desc = "[E]rror: [P]revious", silent = true, noremap = true }
 )
-vim.keymap.set("n", "<leader>dn", vim.diagnostic.goto_next, { desc = "[E]rror: [N]ext", silent = true, noremap = true })
+vim.keymap.set(
+  "n",
+  "<leader>dn",
+  function() vim.diagnostic.jump { count = 1, float = true } end,
+  { desc = "[E]rror: [N]ext", silent = true, noremap = true }
+)
 vim.keymap.set(
   "n",
   "<leader>d",
