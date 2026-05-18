@@ -26,3 +26,8 @@ o.hlsearch = false
 o.updatetime = 50
 opt.scrolloff = 8
 opt.isfname:append "@-@"
+
+-- Default border for floating windows (hover, signature help, etc.).
+-- Replaces v2.0 NvChad's vim.lsp.with(... { border = "rounded" }) which is
+-- gone in v2.5 / removed in Nvim 0.12.
+o.winborder = "rounded"
