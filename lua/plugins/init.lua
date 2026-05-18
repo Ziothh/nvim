@@ -47,38 +47,12 @@ return {
     end,
   },
 
-  -- Cmp: add cmdline source + tweak Tab/S-Tab + strip kind/icon in cmdline
   {
     "hrsh7th/nvim-cmp",
     dependencies = { "hrsh7th/cmp-cmdline" },
     config = function(_, opts)
-      local cmp = require "cmp"
-      cmp.setup(opts)
-
-      local cmdline_mapping = cmp.mapping.preset.cmdline {
-        ["<Tab>"] = cmp.mapping(function()
-          if cmp.visible() then
-            cmp.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true }
-          else
-            cmp.complete()
-          end
-        end, { "c" }),
-        ["<S-Tab>"] = cmp.mapping(function(fallback) fallback() end, { "c" }),
-      }
-
-      local cmdline_formatting = { fields = { "abbr" } }
-
-      cmp.setup.cmdline(":", {
-        mapping = cmdline_mapping,
-        formatting = cmdline_formatting,
-        sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
-      })
-
-      cmp.setup.cmdline({ "/", "?" }, {
-        mapping = cmdline_mapping,
-        formatting = cmdline_formatting,
-        sources = { { name = "buffer" } },
-      })
+      local setup = require "configs.cmp"
+      setup(opts)
     end,
   },
 
