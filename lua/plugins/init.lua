@@ -90,6 +90,7 @@ return {
   {
     "ThePrimeagen/99",
     dependencies = { "nvim-telescope/telescope.nvim" },
+    event = "VeryLazy",
     config = function()
       local _99 = require "99"
       _99.setup {
@@ -103,17 +104,17 @@ return {
         model = "claude-opus-4-7",
       }
       local map = vim.keymap.set
-      map("n", "<leader>9s",  function() _99.search() end)
-      map("v", "<leader>9vv", function() _99.visual() end)
-      map("v", "<leader>9vp", function() _99.visual_prompt() end)
-      map("n", "<leader>9x",  function() _99.stop_all_requests() end)
-      map("n", "<leader>9i",  function() _99.info() end)
-      map("n", "<leader>9l",  function() _99.view_logs() end)
-      map("n", "<leader>9n",  function() _99.next_request_logs() end)
-      map("n", "<leader>9p",  function() _99.prev_request_logs() end)
+      map("n", "<leader>9s",  function() _99.search() end,             { desc = "99: [S]earch / ask Claude" })
+      map("v", "<leader>9vv", function() _99.visual() end,             { desc = "99: send [V]isual selection" })
+      map("v", "<leader>9vp", function() _99.visual_prompt() end,      { desc = "99: [V]isual selection with [P]rompt" })
+      map("n", "<leader>9x",  function() _99.stop_all_requests() end,  { desc = "99: stop all requests" })
+      map("n", "<leader>9i",  function() _99.info() end,               { desc = "99: [I]nfo / status" })
+      map("n", "<leader>9l",  function() _99.view_logs() end,          { desc = "99: view [L]ogs" })
+      map("n", "<leader>9n",  function() _99.next_request_logs() end,  { desc = "99: [N]ext request logs" })
+      map("n", "<leader>9p",  function() _99.prev_request_logs() end,  { desc = "99: [P]rev request logs" })
       map("n", "<leader>9m",  function()
         require("99.extensions.telescope").select_model()
-      end)
+      end, { desc = "99: select [M]odel" })
     end,
   },
 
