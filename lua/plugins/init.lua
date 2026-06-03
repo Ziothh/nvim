@@ -32,6 +32,12 @@ return {
     },
   },
 
+  -- Disable NvChad's indent guide lines (indent-blankline)
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    enabled = false,
+  },
+
   -- Rust
   {
     "mrcjkb/rustaceanvim",
