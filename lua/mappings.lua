@@ -42,8 +42,10 @@ map("n", "<C-d>", "<C-d>zz", { desc = "Half page down (centered)" })
 map("n", "<C-u>", "<C-u>zz", { desc = "Half page up (centered)" })
 map("n", "n", "nzzzv", { desc = "Next match (centered)" })
 
--- format buffer via LSP
-map("n", "<leader>f", vim.lsp.buf.format, { desc = "[F]ormat buffer" })
+-- format buffer (conform: prettierd/biome per project, ts_ls fallback)
+map("n", "<leader>f", function()
+  require("conform").format()
+end, { desc = "[F]ormat buffer" })
 
 -- previous buffer
 map("n", "<leader>bp", ":b#<CR>", { desc = "[B]uffer: [P]revious" })

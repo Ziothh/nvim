@@ -7,13 +7,13 @@ return {
     end,
   },
 
-  -- Formatter / diagnostics (none-ls, maintained fork of null-ls)
+  -- Formatting (conform): per-project prettierd/biome with ts_ls fallback
   {
-    "nvimtools/none-ls.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
+    "stevearc/conform.nvim",
     event = "VeryLazy",
-    config = function()
-      require("configs.none-ls").setup()
+    cmd = "ConformInfo",
+    opts = function()
+      return require "configs.conform"
     end,
   },
 
@@ -180,7 +180,7 @@ return {
       ensure_installed = {
         "lua-language-server", "stylua",
         "css-lsp", "html-lsp", "typescript-language-server",
-        "deno", "prettier",
+        "deno", "prettierd", "biome",
       },
     },
   },

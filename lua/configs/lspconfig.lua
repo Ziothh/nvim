@@ -59,7 +59,9 @@ vim.lsp.config("jsonls", {
 vim.lsp.enable "jsonls"
 
 -- ts_ls:
--- - none-ls/prettier owns JS/TS formatting, so ts_ls stays out
+-- - conform owns JS/TS formatting (prettierd/biome); ts_ls is the fallback
+--   formatter for projects that configure neither, so leave its formatting
+--   capability enabled
 -- - don't advertise semantic-tokens support so treesitter highlighting stays in charge
 -- - opt in to the experimental Go-based tsserver (tsgo) for both TS and JS
 vim.lsp.config("ts_ls", {
@@ -72,10 +74,6 @@ vim.lsp.config("ts_ls", {
     typescript = { experimental = { useTsgo = true } },
     javascript = { experimental = { useTsgo = true } },
   },
-  on_attach = function(client, _bufnr)
-    client.server_capabilities.documentFormattingProvider = false
-    client.server_capabilities.documentRangeFormattingProvider = false
-  end,
 })
 vim.lsp.enable "ts_ls"
 
