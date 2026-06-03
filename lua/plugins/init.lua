@@ -93,26 +93,38 @@ return {
     event = "VeryLazy",
     config = function()
       local _99 = require "99"
+
+      -- The `claude` CLI has no "list models" command, so 99 hardcodes the
+      -- picker list (lua/99/providers.lua) and it currently stops at opus-4-6.
+      -- Override fetch_models so <leader>9m offers the current lineup.
+      _99.Providers.ClaudeCodeProvider.fetch_models = function(cb)
+        cb({
+          "claude-opus-4-8",
+          "claude-opus-4-7",
+          "claude-opus-4-6",
+          "claude-sonnet-4-6",
+          "claude-sonnet-4-5",
+          "claude-haiku-4-5",
+        }, nil)
+      end
+
       _99.setup {
         provider = _99.Providers.ClaudeCodeProvider,
-        show_in_flight_requests = true,
         md_files = { "AGENTS.md", "AGENT.md", "CLAUDE.md", "GEMINI.md" },
         completion = {
           custom_rules = { "~/.claude/skills", ".claude/skills" },
           source = "cmp",
         },
-        model = "claude-opus-4-7",
+        model = "claude-opus-4-8",
       }
       local map = vim.keymap.set
-      map("n", "<leader>9s",  function() _99.search() end,             { desc = "99: [S]earch / ask Claude" })
-      map("v", "<leader>9vv", function() _99.visual() end,             { desc = "99: send [V]isual selection" })
-      map("v", "<leader>9vp", function() _99.visual_prompt() end,      { desc = "99: [V]isual selection with [P]rompt" })
-      map("n", "<leader>9x",  function() _99.stop_all_requests() end,  { desc = "99: stop all requests" })
-      map("n", "<leader>9i",  function() _99.info() end,               { desc = "99: [I]nfo / status" })
-      map("n", "<leader>9l",  function() _99.view_logs() end,          { desc = "99: view [L]ogs" })
-      map("n", "<leader>9n",  function() _99.next_request_logs() end,  { desc = "99: [N]ext request logs" })
-      map("n", "<leader>9p",  function() _99.prev_request_logs() end,  { desc = "99: [P]rev request logs" })
-      map("n", "<leader>9m",  function()
+      map("n", "<leader>9s", function() _99.search() end,            { desc = "99: [S]earch / ask Claude" })
+      map("v", "<leader>9v", function() _99.visual() end,            { desc = "99: send [V]isual selection (prompts)" })
+      map("n", "<leader>9o", function() _99.open() end,              { desc = "99: [O]pen last result" })
+      map("n", "<leader>9x", function() _99.stop_all_requests() end, { desc = "99: stop all requests" })
+      map("n", "<leader>9i", function() _99.info() end,              { desc = "99: [I]nfo / status" })
+      map("n", "<leader>9l", function() _99.view_logs() end,         { desc = "99: view [L]ogs" })
+      map("n", "<leader>9m", function()
         require("99.extensions.telescope").select_model()
       end, { desc = "99: select [M]odel" })
     end,
